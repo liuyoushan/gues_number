@@ -1,9 +1,10 @@
 import random, os
 
 file_path = os.path.join(os.path.dirname(__file__), 'log.txt')
-files = open(file_path, 'w', encoding='utf-8')
+files = open(file_path, 'w+', encoding='utf-8')
 
 
+# 猜测数字
 def guess_fcnction():
     sta_end_number = check_start_end_num()
     # print_write(type(sta_end_number))
@@ -11,8 +12,8 @@ def guess_fcnction():
     while True:
         number = int(input('请继续输入猜测的数字：'))
         files.write('请继续输入猜测的数字：' + str(number) + '\n')
-        # 判断需要猜测的数字是否在数值区间里面
-        if number in sta_end_number:
+        # 判断猜测的数字在数值区间
+        if check_number(number, sta_end_number):
             items += 1
             # 生成随机数
             random_number_te = random.randint(sta_end_number[0], sta_end_number[-1])
@@ -23,6 +24,14 @@ def guess_fcnction():
         else:
             print_write('你输入的猜测数字不在指定数字区间！', file=files)
             continue
+
+
+# 判断需要猜测的数字是否在数值区间里面，在返回True，否则False
+def check_number(n, s):
+    if n in s:
+        return True
+    else:
+        return False
 
 
 # 判断起始值和终止值，且生成range序列进行返回
@@ -48,6 +57,7 @@ def check_start_end_num():
     return sections_int
 
 
+# 封装print方法，调用测方法可打印并写入日志
 def print_write(text, file):
     print(text)
     file.write(text + '\n')
@@ -56,4 +66,3 @@ def print_write(text, file):
 if __name__ == '__main__':
     guess_fcnction()
     files.close()
-
